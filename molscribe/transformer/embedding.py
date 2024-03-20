@@ -56,7 +56,9 @@ class PositionalEncoding(nn.Module):
                 f"Sequence is {emb.size(0) + step} but PositionalEncoding is"
                 f" limited to {self.pe.size(0)}. See max_len argument."
             )
-        emb = emb + self.pe[step:emb.size(0)+step]
+        # 修复位置编码bug
+        # emb = emb + self.pe[step:emb.size(0)+step]
+        emb = emb + self.pe[step]
         emb = self.dropout(emb)
         return emb
 
