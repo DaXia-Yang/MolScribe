@@ -192,7 +192,7 @@ class TransformerDecoderAR(TransformerDecoderBase):
                 label = labels[:, step].view(-1, 1, 1)
                 mask = label.eq(MASK_ID).long()
                 tgt = tgt * mask + label * (1 - mask)
-            tgt_emb, tgt_pad_mask = self.dec_embedding(tgt)
+            tgt_emb, tgt_pad_mask = self.dec_embedding(tgt, step) # 修改位置编码bug，传入step参数
             dec_out, dec_attn, *_ = self.decoder(tgt_emb=tgt_emb, memory_bank=memory_bank,
                                                  tgt_pad_mask=tgt_pad_mask, step=step)
 
